@@ -1,0 +1,93 @@
+---
+title: "Power Curve Hw"
+author: "Alison Pedraza"
+date: "2/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+We want to make the probability of making a Type I and Type II error very small with different values of effectiveness (p = 0.6 to  p = 0.8).
+
+We can do this by increasing the Power (the probability of rejecting the null hypothesis when it is false) and so increasing alpha.
+
+We also want to find out the critica value for this experiment given the different values of effectiveness. 
+
+
+#### Power Plot with significance level 0.95 - a realy big Power
+
+If 60% of the people show that the aspirine is effective, how many people would we need to make sure we don't make a Type I error? : we reject the null hypothesis when we should not.
+
+
+  - With significance level = 0.95 and p = 0.6
+  - The critical value = .68 
+
+With 60% effectiveness, the value of m (number of people) you would need to be cured to make the probability of a Type I error small is 68.
+
+  - m = 68
+
+
+```{r echo=FALSE}
+
+n = 100
+p = 0.6
+sd = sqrt((p * (1 - p)/n))
+
+
+critical_value_1<-qnorm(0.95,p,sd)
+critical_value_1
+
+p_hat_seq = seq(0.4, 1, 0.01)
+power<-1-pnorm(critical_value_1,p_hat_seq,sd)
+plot(p_hat_seq, power, type = "l", ylab = "Power" , col = "red")
+
+abline(h = 0.05, col = "grey", lwd = 1)
+abline(h = 0.95, col = "grey", lwd = 1)
+abline(v = 0.6, col = "grey", lwd = 1)
+abline(v = 0.8, col = "grey", lwd = 1)
+
+```
+
+
+<br>
+
+#### Power Plot with significance level 0.05
+
+If 80% of the people show that the aspirine is effective, how many people would we need to make sure we don't make a Type II error? : we reject the null hypothesis when we should not.
+
+Type II error = 1 - alpha 
+
+  - With signigicance level of 0.05 and p = 0.8
+  - critical value = .73
+  
+If we assign the aspirine to 100 people with p = 0.8, at least 73 people would need to be cured.
+
+  - m = 73
+  
+  <br>
+  
+```{r echo = FALSE}
+
+n = 100
+p = 0.8
+sd = sqrt((p * (1 - p)/n))
+
+## critical value
+critical_value_2<-qnorm(0.05,p,sd)
+critical_value_2
+
+p_hat_seq = seq(0.4, 1, 0.01)
+power<-1-pnorm(critical_value_2,p_hat_seq,sd)
+
+plot(p_hat_seq, power, type = "l", ylab = "Power" , col = "blue")
+abline(h = 0.05, col = "grey", lwd = 1)
+abline(h = 0.95, col = "grey", lwd = 1)
+abline(v = 0.6, col = "grey", lwd = 1)
+abline(v = 0.8, col = "grey", lwd = 1)
+
+```
+
+
